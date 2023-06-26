@@ -23,8 +23,6 @@ class SignupView(APIView):
 
         return Response({"message": "User registration completed successfully."}, status=status.HTTP_201_CREATED)
 
-from django.contrib.auth import login, authenticate
-
 class LoginView(APIView):
     login_serializer_class = LoginSerializer
 
@@ -51,15 +49,11 @@ class LoginView(APIView):
 
             return Response({"message": "OTP has been successfully sent to your email"},
                             status=status.HTTP_200_OK)
-        print(user.username)
-        print("pop")
 
         if str(entered_otp) == str(otp.otp):
             otp.delete()
-            print("pop")
             # user = CustomUser.objects.get(email=email)
             # user = auth.authenticate(request, username="mohan")
-            print(user)
             if user is not None:
                 login(request, user)
                 return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
